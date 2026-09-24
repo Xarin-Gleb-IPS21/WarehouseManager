@@ -1,0 +1,107 @@
+﻿<Window x:Class="WarehouseManager.App.Views.WarehousesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Склады и товары" Height="640" Width="1080"
+        Background="{StaticResource AppBackgroundBrush}"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Импорт товаров"  Command="{Binding ImportProductsCommand}"/>
+                <Separator/>
+                <MenuItem Header="Закрыть" Click="OnClose"/>
+            </MenuItem>
+            <MenuItem Header="Склады">
+                <MenuItem Header="Новый склад"     Command="{Binding AddWarehouseCommand}"/>
+                <MenuItem Header="Изменить склад"  Command="{Binding EditWarehouseCommand}"/>
+                <MenuItem Header="Удалить склад"   Command="{Binding DeleteWarehouseCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Товары">
+                <MenuItem Header="Новый товар"     Command="{Binding AddProductCommand}"/>
+                <MenuItem Header="Изменить товар"  Command="{Binding EditProductCommand}"/>
+                <MenuItem Header="Удалить товар"   Command="{Binding DeleteProductCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Накладные">
+                <MenuItem Header="Список накладных"  Command="{Binding OpenInvoicesCommand}"/>
+                <MenuItem Header="Создать накладную" Command="{Binding CreateInvoiceCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1" Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0">
+                <TextBlock DockPanel.Dock="Top" Text="Склады" FontWeight="Bold" Margin="2"/>
+                <ListBox ItemsSource="{Binding Warehouses}"
+                         SelectedItem="{Binding SelectedWarehouse}"
+                         DisplayMemberPath="Name">
+                    <ListBox.ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="Новый склад"     Command="{Binding AddWarehouseCommand}"/>
+                            <MenuItem Header="Изменить склад"  Command="{Binding EditWarehouseCommand}"/>
+                            <MenuItem Header="Удалить склад"   Command="{Binding DeleteWarehouseCommand}"/>
+                            <Separator/>
+                            <MenuItem Header="Импорт товаров"  Command="{Binding ImportProductsCommand}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
+            </DockPanel>
+
+            <DockPanel Grid.Column="1" Margin="8,0,0,0">
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Поиск:" VerticalAlignment="Center" Margin="3"/>
+                    <TextBox   Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <DataGrid ItemsSource="{Binding Products}"
+                          SelectedItem="{Binding SelectedProduct}"
+                          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Фото" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding ImagePath}" Width="60" Height="60" Stretch="Uniform"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Артикул"       Binding="{Binding Article}"          Width="90"/>
+                        <DataGridTextColumn Header="Наименование"  Binding="{Binding Name}"             Width="*"/>
+                        <DataGridTextColumn Header="Категория"     Binding="{Binding Category}"         Width="110"/>
+                        <DataGridTextColumn Header="Производитель" Binding="{Binding Manufacturer}"     Width="120"/>
+                        <DataGridTextColumn Header="Поставщик"     Binding="{Binding Supplier}"         Width="130"/>
+                        <DataGridTextColumn Header="Цена"          Binding="{Binding Price, StringFormat={}{0:C}}" Width="90"/>
+                        <DataGridTextColumn Header="Остаток"       Binding="{Binding Stock}"            Width="80"/>
+                        <DataGridTextColumn Header="Скидка %"      Binding="{Binding DiscountPercent}"  Width="80"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="Новый товар"     Command="{Binding AddProductCommand}"/>
+                            <MenuItem Header="Изменить товар"  Command="{Binding EditProductCommand}"/>
+                            <MenuItem Header="Удалить товар"   Command="{Binding DeleteProductCommand}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+
+        <StatusBar Grid.Row="2" Background="{StaticResource PanelBrush}">
+            <StatusBarItem>
+                <TextBlock Text="{Binding ContextInfo}"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

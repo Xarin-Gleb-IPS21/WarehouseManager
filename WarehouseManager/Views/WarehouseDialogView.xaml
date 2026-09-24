@@ -1,0 +1,27 @@
+﻿<Window x:Class="WarehouseManager.App.Views.WarehouseDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Title}" Height="240" Width="440"
+        Background="{StaticResource AppBackgroundBrush}"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Наименование склада" Margin="3"/>
+        <TextBox   Grid.Row="1" Text="{Binding WarehouseName, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Row="2" Text="Адрес" Margin="3"/>
+        <TextBox   Grid.Row="3" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+            <Button Content="Сохранить" Width="110" Click="OnSave"/>
+            <Button Content="Отмена"    Width="90"  Click="OnCancel"/>
+        </StackPanel>
+    </Grid>
+</Window>
