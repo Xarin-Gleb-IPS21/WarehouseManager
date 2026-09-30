@@ -103,4 +103,92 @@
         <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
     </Style>
+
+	<Style TargetType="ContextMenu">
+		<Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+		<Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+		<Setter Property="BorderBrush" Value="{StaticResource BorderSoftBrush}"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Padding" Value="2"/>
+		<Setter Property="HasDropShadow" Value="True"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ContextMenu">
+					<Border Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Padding="{TemplateBinding Padding}"
+							CornerRadius="3">
+						<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	
+	<Style TargetType="MenuItem">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+		<Setter Property="Padding" Value="8,4"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="MenuItem">
+					<Border x:Name="Bd"
+							Background="{TemplateBinding Background}"
+							Padding="{TemplateBinding Padding}"
+							SnapsToDevicePixels="True">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<ContentPresenter Grid.Column="0"
+											  ContentSource="Header"
+											  RecognizesAccessKey="True"
+											  VerticalAlignment="Center"/>
+							<TextBlock x:Name="Arrow"
+									   Grid.Column="1"
+									   Text="▸"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   Visibility="Collapsed"/>
+							<Popup x:Name="PART_Popup"
+								   AllowsTransparency="True"
+								   Placement="Right"
+								   IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+								   Focusable="False"
+								   PopupAnimation="Fade">
+								<Border Background="{StaticResource PanelBrush}"
+										BorderBrush="{StaticResource BorderSoftBrush}"
+										BorderThickness="1"
+										Padding="2"
+										CornerRadius="3">
+									<StackPanel IsItemsHost="True"
+												KeyboardNavigation.DirectionalNavigation="Cycle"/>
+								</Border>
+							</Popup>
+						</Grid>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="Role" Value="SubmenuHeader">
+							<Setter TargetName="Arrow" Property="Visibility" Value="Visible"/>
+						</Trigger>
+						<Trigger Property="IsHighlighted" Value="True">
+							<Setter TargetName="Bd" Property="Background" Value="{StaticResource AccentBrush}"/>
+							<Setter Property="Foreground" Value="White"/>
+						</Trigger>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter Property="Foreground" Value="#FF7A7A85"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style TargetType="Separator">
+		<Setter Property="Background" Value="{StaticResource BorderSoftBrush}"/>
+		<Setter Property="Height" Value="1"/>
+		<Setter Property="Margin" Value="4,3"/>
+	</Style>
 </ResourceDictionary>
